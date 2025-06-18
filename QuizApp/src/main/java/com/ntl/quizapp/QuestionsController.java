@@ -47,7 +47,7 @@ public class QuestionsController implements Initializable {
             while(rs.next())
             {
                 Category c = new Category(rs.getInt("id"), rs.getString("name"));
-               
+                cates.add(c);
             }
             
             // B4
