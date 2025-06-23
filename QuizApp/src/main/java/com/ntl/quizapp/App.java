@@ -1,5 +1,6 @@
 package com.ntl.quizapp;
 
+import com.ntl.utils.jdbcConnector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,5 +36,13 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        jdbcConnector.getInstance().close();
+    }
+    
+    
 
 }
