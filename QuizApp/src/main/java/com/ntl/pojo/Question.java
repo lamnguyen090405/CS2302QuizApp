@@ -29,6 +29,7 @@ public class Question {
         this.image = b.image;
         this.category = b.category;
         this.level = b.level;
+        this.choices = b.choices;
     }
     
     public static class Builder {
