@@ -7,4 +7,5 @@ module com.ntl.quizapp {
     
     opens com.ntl.quizapp to javafx.fxml;
     exports com.ntl.quizapp;
+    exports com.ntl.pojo;
 }

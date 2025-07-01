@@ -20,17 +20,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -45,6 +53,8 @@ public class QuestionsController implements Initializable {
   @FXML private ComboBox<Level> cbLevels;
   @FXML private TextArea txtContent;
   @FXML private ToggleGroup toggleChoice = new ToggleGroup();
+  @FXML private TableView<Question> tbQuestions;
+  @FXML private TextField txtSearch;
   
   private static final CategoryServices cateService = new CategoryServices();
   private static final LevelServices levelService = new LevelServices();
@@ -59,10 +69,20 @@ public class QuestionsController implements Initializable {
             
            
             this.cbCates.setItems(FXCollections.observableList(cateService.getCates()));
-            this.cbLevels.setItems(FXCollections.observableArrayList(levelService.getLevels()));
+            this.cbLevels.setItems(FXCollections.observableList(levelService.getLevels()));
+            this.loadColums();
+            this.tbQuestions.setItems(FXCollections.observableList(questionService.getQuestions()));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        
+        this.txtSearch.textProperty().addListener((e)->{
+            try {
+                this.tbQuestions.setItems(FXCollections.observableList(questionService.getQuestions(this.txtSearch.getText())));
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        });
         
     }   
     
@@ -105,5 +125,45 @@ public class QuestionsController implements Initializable {
       catch (Exception ex) {
           MyAlert.getInstance().showMsg("Dữ liệu không hợp lệ!");
       }
+    }
+    
+    public void loadColums(){
+        TableColumn colId = new TableColumn("Id");
+        colId.setCellValueFactory(new PropertyValueFactory("id"));
+        colId.setPrefWidth(150);
+        
+        TableColumn colContent = new TableColumn("Content");
+        colContent.setCellValueFactory(new PropertyValueFactory("content"));
+        colContent.setPrefWidth(300);
+        
+        
+        TableColumn colAction = new TableColumn();
+        colAction.setCellFactory((e)->{
+            TableCell cell = new TableCell();
+            
+            Button btn = new Button("Xóa");
+            btn.getStyleClass().clear();
+            btn.setOnAction(event -> {
+               Optional<ButtonType> type = MyAlert.getInstance().showMsg("Nếu xóa câu hỏi thì các lựa chọn cũng sẽ bị xóa theo. Bạn có chắc chắn chứ ?",
+                       Alert.AlertType.CONFIRMATION);
+               
+               if(type.isPresent() && type.get().equals(ButtonType.OK))
+               {
+                   Question q = (Question)cell.getTableRow().getItem();
+                   try {
+                       if(questionService.deleteQuestion(q.getId())==true){
+                           MyAlert.getInstance().showMsg("Xóa thành công!");
+                       }else MyAlert.getInstance().showMsg("Xóa thất bại!");
+                   } catch (SQLException ex) {
+                       Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                   }
+               }
+           });
+            
+            cell.setGraphic(btn);
+            return cell;
+        });
+        
+        this.tbQuestions.getColumns().addAll(colId, colContent, colAction);
     }
 }

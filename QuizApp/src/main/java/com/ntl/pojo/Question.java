@@ -21,8 +21,7 @@ public class Question {
     private Level level;
     private List<Choice> choices;
 
-    private Question(Builder b)
-    {
+    private Question(Builder b) {
         this.id = b.id;
         this.content = b.content;
         this.hint = b.hint;
@@ -31,7 +30,7 @@ public class Question {
         this.level = b.level;
         this.choices = b.choices;
     }
-    
+
     public static class Builder {
 
         private int id;
@@ -41,39 +40,46 @@ public class Question {
         private Category category;
         private Level level;
         private List<Choice> choices;
-        
-        public Builder(String content, Category category, Level level) throws Exception
-        {
-            if(content.isEmpty() || category == null || level == null)
+
+        public Builder(String content, Category category, Level level) throws Exception {
+            if (content.isEmpty() || category == null || level == null) {
                 throw new Exception("Invalid data!");
-            
+            }
+
             this.content = content;
             this.category = category;
             this.level = level;
             this.choices = new ArrayList<>();
         }
-        
-        public Builder addHint(String s)
-        {
+
+        public Builder(int id, String content) {
+            this.id = id;
+            this.content = content;
+        }
+
+        public Builder addHint(String s) {
             this.hint = s;
             return this;
         }
-        
-        public Builder addImage(String s)
-        {
+
+        public Builder addImage(String s) {
             this.image = s;
             return this;
         }
-         public Builder addChoices(Choice c)
-         {
-             this.choices.add(c);
-             return this;
-         }
-        
-         public Question build()
-         {
-             return new Question(this);
-         }
+
+        public Builder addChoices(Choice c) {
+            this.choices.add(c);
+            return this;
+        }
+
+        public Builder addAllChoices(List<Choice> choices) {
+            this.choices.addAll(choices);
+            return this;
+        }
+
+        public Question build() {
+            return new Question(this);
+        }
     }
 
     /**
