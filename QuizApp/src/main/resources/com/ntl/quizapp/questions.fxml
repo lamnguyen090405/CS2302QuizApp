@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ntl.quizapp.QuestionsController">
+<ScrollPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ntl.quizapp.QuestionsController">
    <content>
       <VBox styleClass="MENU">
          <children>
@@ -44,8 +44,8 @@
                   </HBox>
                </children>
             </VBox>
-            <Button mnemonicParsing="false" onAction="#handleMoreChoices" text="Thêm lựa chọn" />
-            <Button mnemonicParsing="false" onAction="#handleQuestion" text="Thêm câu hỏi" />
+            <Button mnemonicParsing="false" onAction="#handleMoreChoices" styleClass="my-button" text="Thêm lựa chọn" />
+            <Button mnemonicParsing="false" onAction="#handleQuestion" styleClass="my-button" text="Thêm câu hỏi" />
             <TextField fx:id="txtSearch" promptText="Tìm kiếm" />
             <TableView fx:id="tbQuestions" prefHeight="170.0" prefWidth="628.0" />
          </children>

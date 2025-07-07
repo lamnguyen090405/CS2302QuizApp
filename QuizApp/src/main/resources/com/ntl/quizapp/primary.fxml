@@ -8,11 +8,11 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="345.0" styleClass="MENU" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ntl.quizapp.PrimaryController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Quiz App" />
-      <Button mnemonicParsing="false" onAction="#handleQuestionManagement" text="Quản lý câu hỏi" />
-      <Button layoutX="83.0" layoutY="155.0" mnemonicParsing="false" onAction="#handlePractice" text="Luyện tập" />
-      <Button layoutX="83.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleTest" text="Thi" />
-      <Button layoutX="83.0" layoutY="237.0" mnemonicParsing="false" onAction="#handleSignUp" text="Đăng ký" />
-      <Button layoutX="83.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleSignIn" text="Đăng nhập" />
-      <ComboBox fx:id="cbThemes" onAction="#handleTheme" prefWidth="150.0" promptText="Theme" styleClass="button" />
+      <Button mnemonicParsing="false" onAction="#handleQuestionManagement" styleClass="my-button" text="Quản lý câu hỏi" />
+      <Button layoutX="83.0" layoutY="155.0" mnemonicParsing="false" onAction="#handlePractice" styleClass="my-button" text="Luyện tập" />
+      <Button layoutX="83.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleTest" styleClass="my-button" text="Thi" />
+      <Button layoutX="83.0" layoutY="237.0" mnemonicParsing="false" onAction="#handleSignUp" styleClass="my-button" text="Đăng ký" />
+      <Button layoutX="83.0" layoutY="251.0" mnemonicParsing="false" onAction="#handleSignIn" styleClass="my-button" text="Đăng nhập" />
+      <ComboBox fx:id="cbThemes" onAction="#handleTheme" prefWidth="150.0" promptText="Theme" styleClass="my-button" />
    </children>
 </VBox>

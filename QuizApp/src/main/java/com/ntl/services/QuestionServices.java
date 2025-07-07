@@ -95,7 +95,7 @@ public class QuestionServices {
 
     public List<Question> getQuestions(int num) throws SQLException {
         Connection conn = jdbcConnector.getInstance().connect();
-        PreparedStatement stm = conn.prepareCall("SELECT * FROM question LIMIT ? ORDER BY rand()");
+        PreparedStatement stm = conn.prepareCall("SELECT * FROM question ORDER BY rand() LIMIT ?");
         stm.setInt(1, num);
         ResultSet rs = stm.executeQuery();
 

@@ -21,7 +21,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-stroke-width: 2;
 }
 
-.button {
+.my-button {
     -fx-background-color: #E0E0E0 ;
     -fx-text-fill: #000000 ;
     -fx-pref-width: 200;

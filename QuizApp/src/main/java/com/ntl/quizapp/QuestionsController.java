@@ -11,6 +11,7 @@ import com.ntl.pojo.Question;
 import com.ntl.services.CategoryServices;
 import com.ntl.services.LevelServices;
 import com.ntl.services.QuestionServices;
+import com.ntl.utils.Configs;
 import com.ntl.utils.MyAlert;
 import java.net.URL;
 import java.sql.Connection;
@@ -56,9 +57,7 @@ public class QuestionsController implements Initializable {
   @FXML private TableView<Question> tbQuestions;
   @FXML private TextField txtSearch;
   
-  private static final CategoryServices cateService = new CategoryServices();
-  private static final LevelServices levelService = new LevelServices();
-  private static final QuestionServices questionService = new QuestionServices();
+  
   
     /**
      * Initializes the controller class.
@@ -68,17 +67,17 @@ public class QuestionsController implements Initializable {
         try {
             
            
-            this.cbCates.setItems(FXCollections.observableList(cateService.getCates()));
-            this.cbLevels.setItems(FXCollections.observableList(levelService.getLevels()));
+            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
+            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
             this.loadColums();
-            this.tbQuestions.setItems(FXCollections.observableList(questionService.getQuestions()));
+            this.tbQuestions.setItems(FXCollections.observableList(Configs.questionService.getQuestions()));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
         this.txtSearch.textProperty().addListener((e)->{
             try {
-                this.tbQuestions.setItems(FXCollections.observableList(questionService.getQuestions(this.txtSearch.getText())));
+                this.tbQuestions.setItems(FXCollections.observableList(Configs.questionService.getQuestions(this.txtSearch.getText())));
             } catch (SQLException ex) {
                 Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
@@ -116,7 +115,7 @@ public class QuestionsController implements Initializable {
           }
           
           Question q = b.build();
-          questionService.addQuestion(q);
+          Configs.questionService.addQuestion(q);
           MyAlert.getInstance().showMsg("Thêm câu hỏi thành công");
       }
       catch(SQLException ex){
@@ -141,8 +140,7 @@ public class QuestionsController implements Initializable {
         colAction.setCellFactory((e)->{
             TableCell cell = new TableCell();
             
-            Button btn = new Button("Xóa");
-            btn.getStyleClass().clear();
+            Button btn = new Button("Xóa");        
             btn.setOnAction(event -> {
                Optional<ButtonType> type = MyAlert.getInstance().showMsg("Nếu xóa câu hỏi thì các lựa chọn cũng sẽ bị xóa theo. Bạn có chắc chắn chứ ?",
                        Alert.AlertType.CONFIRMATION);
@@ -151,7 +149,7 @@ public class QuestionsController implements Initializable {
                {
                    Question q = (Question)cell.getTableRow().getItem();
                    try {
-                       if(questionService.deleteQuestion(q.getId())==true){
+                       if(Configs.questionService.deleteQuestion(q.getId())==true){
                            MyAlert.getInstance().showMsg("Xóa thành công!");
                        }else MyAlert.getInstance().showMsg("Xóa thất bại!");
                    } catch (SQLException ex) {
