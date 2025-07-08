@@ -29,3 +29,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-weight: bold;
     
 }
+
+.Space {
+    -fx-spacing: 8;
+}
+
+.Input {
+    -fx-pref-width: 300;
+    -fx-padding: 8;
+}
+
+.Padding {
+    -fx-padding: 8;
+}
+
+.Normal {
+    -fx-fill: white;
+    -fx-font-size: 16;
+}
+
+.Correct {
+    -fx-fill: #64B5F6;
+    -fx-font-size: 16;
+}
+
+.Wrong {
+    -fx-fill: #FF7043;
+    -fx-font-size: 16;
+}

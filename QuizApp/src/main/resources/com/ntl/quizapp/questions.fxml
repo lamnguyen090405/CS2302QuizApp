@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ntl.quizapp.QuestionsController">
+<ScrollPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ntl.quizapp.QuestionsController">
    <content>
       <VBox styleClass="MENU">
          <children>
@@ -20,8 +20,8 @@
             <TextArea fx:id="txtContent" prefHeight="72.0" prefWidth="580.0" promptText="Nội dung câu hỏi" />
             <HBox prefHeight="44.0" prefWidth="580.0" styleClass="MENU">
                <children>
-                  <ComboBox fx:id="cbCates" prefWidth="150.0" promptText="Danh mục" />
-                  <ComboBox fx:id="cbLevels" prefWidth="150.0" promptText="Mức độ" />
+                  <ComboBox fx:id="cbCates" prefWidth="150.0" promptText="Danh mục" styleClass="Input" />
+                  <ComboBox fx:id="cbLevels" prefWidth="150.0" promptText="Mức độ" styleClass="Input" />
                </children>
             </HBox>
             <VBox fx:id="vboxChoices" prefHeight="60.0" prefWidth="580.0">
@@ -46,7 +46,13 @@
             </VBox>
             <Button mnemonicParsing="false" onAction="#handleMoreChoices" styleClass="my-button" text="Thêm lựa chọn" />
             <Button mnemonicParsing="false" onAction="#handleQuestion" styleClass="my-button" text="Thêm câu hỏi" />
-            <TextField fx:id="txtSearch" promptText="Tìm kiếm" />
+            <HBox>
+               <children>
+                  <TextField fx:id="txtSearch" promptText="Tìm kiếm" styleClass="Input" />
+                  <ComboBox fx:id="cbSearchCates" prefWidth="150.0" styleClass="Input" />
+                  <ComboBox fx:id="cbSearchLevel" layoutX="310.0" layoutY="10.0" prefWidth="150.0" styleClass="Input" />
+               </children>
+            </HBox>
             <TableView fx:id="tbQuestions" prefHeight="170.0" prefWidth="628.0" />
          </children>
       </VBox>

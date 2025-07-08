@@ -4,7 +4,13 @@
  */
 package com.ntl.quizapp;
 
+import com.ntl.pojo.Category;
+import com.ntl.pojo.Level;
 import com.ntl.pojo.Question;
+import com.ntl.services.question.BaseQuestionServices;
+import com.ntl.services.question.CategoryQuestionServicesDecorator;
+import com.ntl.services.question.LevelQuestionServicesDecorator;
+import com.ntl.services.question.LimitQuestionServicesDecorator;
 import com.ntl.utils.Configs;
 import com.ntl.utils.MyAlert;
 import com.ntl.utils.MyStage;
@@ -13,10 +19,13 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
@@ -38,6 +47,10 @@ public class PracticeController implements Initializable {
     private Text txtContent;
     @FXML
     private VBox vBoxChoices;
+    @FXML
+    private ComboBox<Category> cbCates;
+    @FXML
+    private ComboBox<Level> cbLevels;
     private List<Question> questions;
     private int currentIndex = 0;
 
@@ -46,13 +59,33 @@ public class PracticeController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.list()));
+            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.list()));
+        } catch (SQLException ex) {
+            Logger.getLogger(PracticeController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+           
     }
 
     public void start(ActionEvent event) throws SQLException {
         try {
             int num = Integer.parseInt(this.txtNum.getText());
-            questions = Configs.questionService.getQuestions(num);
+            BaseQuestionServices s = Configs.questionService;
+            Category c = this.cbCates.getSelectionModel().getSelectedItem();
+            if (c != null) {
+                s = new CategoryQuestionServicesDecorator(s, c);
+            }
+
+            Level lv = this.cbLevels.getSelectionModel().getSelectedItem();
+            if (lv != null) {
+                s = new LevelQuestionServicesDecorator(s, lv);
+            }
+
+            s = new LimitQuestionServicesDecorator(s, num);
+            questions = s.list();
+
+            this.currentIndex = 0;
             loadQuestion();
         } catch (InputMismatchException ex) {
             MyAlert.getInstance().showMsg("Số câu hỏi không hợp lệ", Alert.AlertType.WARNING);
@@ -66,10 +99,11 @@ public class PracticeController implements Initializable {
         for (int i = 0; i < q.getChoices().size(); i++) {
             if (q.getChoices().get(i).isCorrect()) {
                 HBox h = (HBox) vBoxChoices.getChildren().get(i);
-                if(((RadioButton)h.getChildren().get(0)).isSelected())
-                {
+                if (((RadioButton) h.getChildren().get(0)).isSelected()) {
                     MyAlert.getInstance().showMsg("CORRECT!");
-                }else MyAlert.getInstance().showMsg("INCORRECT!");
+                } else {
+                    MyAlert.getInstance().showMsg("INCORRECT!");
+                }
                 break;
             }
         }

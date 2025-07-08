@@ -6,7 +6,9 @@ package com.ntl.utils;
 
 import com.ntl.services.CategoryServices;
 import com.ntl.services.LevelServices;
-import com.ntl.services.QuestionServices;
+import com.ntl.services.question.QuestionServices;
+import com.ntl.services.UpdateQuestionServices;
+import com.ntl.services.question.BaseQuestionServices;
 
 /**
  *
@@ -16,5 +18,7 @@ public class Configs {
 
     public static final CategoryServices cateService = new CategoryServices();
     public static final LevelServices levelService = new LevelServices();
-    public static final QuestionServices questionService = new QuestionServices();
+    public static BaseQuestionServices questionService = new QuestionServices();
+    public static final UpdateQuestionServices uQService = new UpdateQuestionServices();
+            
 }

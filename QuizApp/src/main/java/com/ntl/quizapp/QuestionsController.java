@@ -10,7 +10,11 @@ import com.ntl.pojo.Level;
 import com.ntl.pojo.Question;
 import com.ntl.services.CategoryServices;
 import com.ntl.services.LevelServices;
-import com.ntl.services.QuestionServices;
+import com.ntl.services.question.BaseQuestionServices;
+import com.ntl.services.question.CategoryQuestionServicesDecorator;
+import com.ntl.services.question.KeywordQuestionServicesDecorator;
+import com.ntl.services.question.LevelQuestionServicesDecorator;
+import com.ntl.services.question.QuestionServices;
 import com.ntl.utils.Configs;
 import com.ntl.utils.MyAlert;
 import java.net.URL;
@@ -52,6 +56,8 @@ public class QuestionsController implements Initializable {
   @FXML private VBox vboxChoices;
   @FXML private ComboBox<Category> cbCates;
   @FXML private ComboBox<Level> cbLevels;
+  @FXML private ComboBox<Category> cbSearchCates;
+  @FXML private ComboBox<Level> cbSearchLevel;
   @FXML private TextArea txtContent;
   @FXML private ToggleGroup toggleChoice = new ToggleGroup();
   @FXML private TableView<Question> tbQuestions;
@@ -67,17 +73,38 @@ public class QuestionsController implements Initializable {
         try {
             
            
-            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.getCates()));
-            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.getLevels()));
+            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.list()));
+            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.list()));
+            this.cbSearchCates.setItems(FXCollections.observableList(Configs.cateService.list()));
+            this.cbSearchLevel.setItems(FXCollections.observableList(Configs.levelService.list()));
             this.loadColums();
-            this.tbQuestions.setItems(FXCollections.observableList(Configs.questionService.getQuestions()));
+            this.tbQuestions.setItems(FXCollections.observableList(Configs.questionService.list()));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
         this.txtSearch.textProperty().addListener((e)->{
             try {
-                this.tbQuestions.setItems(FXCollections.observableList(Configs.questionService.getQuestions(this.txtSearch.getText())));
+                BaseQuestionServices s = new KeywordQuestionServicesDecorator(Configs.questionService, this.txtSearch.getText());
+                this.tbQuestions.setItems(FXCollections.observableList(s.list()));
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        });
+        
+        this.cbSearchCates.getSelectionModel().selectedItemProperty().addListener(e -> {
+             try {
+                BaseQuestionServices s = new CategoryQuestionServicesDecorator(Configs.questionService, this.cbSearchCates.getSelectionModel().getSelectedItem());
+                this.tbQuestions.setItems(FXCollections.observableList(s.list()));
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        });
+        
+        this.cbSearchLevel.getSelectionModel().selectedItemProperty().addListener(e -> {
+             try {
+                BaseQuestionServices s = new LevelQuestionServicesDecorator(Configs.questionService, this.cbSearchLevel.getSelectionModel().getSelectedItem());
+                this.tbQuestions.setItems(FXCollections.observableList(s.list()));
             } catch (SQLException ex) {
                 Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
@@ -115,7 +142,7 @@ public class QuestionsController implements Initializable {
           }
           
           Question q = b.build();
-          Configs.questionService.addQuestion(q);
+          Configs.uQService.addQuestion(q);
           MyAlert.getInstance().showMsg("Thêm câu hỏi thành công");
       }
       catch(SQLException ex){
@@ -149,7 +176,7 @@ public class QuestionsController implements Initializable {
                {
                    Question q = (Question)cell.getTableRow().getItem();
                    try {
-                       if(Configs.questionService.deleteQuestion(q.getId())==true){
+                       if(Configs.uQService.deleteQuestion(q.getId())==true){
                            MyAlert.getInstance().showMsg("Xóa thành công!");
                        }else MyAlert.getInstance().showMsg("Xóa thất bại!");
                    } catch (SQLException ex) {
