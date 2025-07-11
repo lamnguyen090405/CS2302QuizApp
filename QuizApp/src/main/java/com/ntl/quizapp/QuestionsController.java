@@ -9,6 +9,7 @@ import com.ntl.pojo.Choice;
 import com.ntl.pojo.Level;
 import com.ntl.pojo.Question;
 import com.ntl.services.CategoryServices;
+import com.ntl.services.FlyweightFactory;
 import com.ntl.services.LevelServices;
 import com.ntl.services.question.BaseQuestionServices;
 import com.ntl.services.question.CategoryQuestionServicesDecorator;
@@ -72,11 +73,11 @@ public class QuestionsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             
-           
-            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.list()));
-            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.list()));
-            this.cbSearchCates.setItems(FXCollections.observableList(Configs.cateService.list()));
-            this.cbSearchLevel.setItems(FXCollections.observableList(Configs.levelService.list()));
+            
+            this.cbCates.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.cateService, "categories")));
+            this.cbLevels.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.levelService, "levels")));
+            this.cbSearchCates.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.cateService, "categories")));
+            this.cbSearchLevel.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.levelService, "levels")));
             this.loadColums();
             this.tbQuestions.setItems(FXCollections.observableList(Configs.questionService.list()));
         } catch (SQLException ex) {

@@ -7,6 +7,7 @@ package com.ntl.quizapp;
 import com.ntl.pojo.Category;
 import com.ntl.pojo.Level;
 import com.ntl.pojo.Question;
+import com.ntl.services.FlyweightFactory;
 import com.ntl.services.question.BaseQuestionServices;
 import com.ntl.services.question.CategoryQuestionServicesDecorator;
 import com.ntl.services.question.LevelQuestionServicesDecorator;
@@ -60,8 +61,8 @@ public class PracticeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.cbCates.setItems(FXCollections.observableList(Configs.cateService.list()));
-            this.cbLevels.setItems(FXCollections.observableList(Configs.levelService.list()));
+            this.cbCates.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.cateService, "categories")));
+            this.cbLevels.setItems(FXCollections.observableList(FlyweightFactory.getData(Configs.levelService, "levels")));
         } catch (SQLException ex) {
             Logger.getLogger(PracticeController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
