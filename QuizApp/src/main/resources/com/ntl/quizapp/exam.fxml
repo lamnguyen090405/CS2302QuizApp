@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="600.0" styleClass="MENU" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ntl.quizapp.ExamController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="BÀI THI" />
+      <HBox prefHeight="46.0" prefWidth="580.0" styleClass="MENU">
+         <children>
+            <ComboBox fx:id="cbTypes" prefWidth="150.0" />
+            <TextField fx:id="txtNum" promptText="Số lượng" />
+            <Button mnemonicParsing="false" onAction="#handleStart" text="Bắt đầu" />
+         </children>
+      </HBox>
+      <ListView fx:id="lvQuestions" prefHeight="268.0" prefWidth="580.0" />
+      <HBox prefHeight="51.0" prefWidth="580.0" styleClass="MENU">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleFinish" styleClass="my-button" text="Hoàn thành" />
+            <Button mnemonicParsing="false" style="-fx-background-color: red;" styleClass="my-button" text="Lưu bài thi" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -20,5 +20,6 @@ public class Configs {
     public static final LevelServices levelService = new LevelServices();
     public static BaseQuestionServices questionService = new QuestionServices();
     public static final UpdateQuestionServices uQService = new UpdateQuestionServices();
+    public static final int NUM_OF_QUESTIONS = 10;
             
 }

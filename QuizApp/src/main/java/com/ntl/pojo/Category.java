@@ -4,8 +4,6 @@
  */
 package com.ntl.pojo;
 
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *

@@ -21,6 +21,13 @@ public class Question {
     private Level level;
     private List<Choice> choices;
 
+    @Override
+    public String toString() {
+        return this.content;
+    }
+
+    
+    
     private Question(Builder b) {
         this.id = b.id;
         this.content = b.content;
