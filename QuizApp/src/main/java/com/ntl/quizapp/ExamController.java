@@ -82,7 +82,7 @@ public class ExamController implements Initializable {
 
             this.results = new HashMap<>();
 
-            this.questions = exService.getQuestions();
+            this.questions = this.exService.getQuestions();
 
             this.lvQuestions.setItems(FXCollections.observableList(questions));
 
